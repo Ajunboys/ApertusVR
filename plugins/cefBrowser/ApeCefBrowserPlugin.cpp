@@ -29,6 +29,7 @@ Ape::CefBrowserPlugin::CefBrowserPlugin()
 	mpSystemConfig = Ape::ISystemConfig::getSingletonPtr();
 	mpMainWindow = Ape::IMainWindow::getSingletonPtr();
 	mpApeCefRenderHandlerImpl = nullptr;
+	mpApeCefLifeSpanHandlerImpl = nullptr;
 	mApeCefClientImpl = nullptr;
 	mBrowserCounter = 0;
 	mCefIsInintialzed = false;
@@ -45,6 +46,7 @@ Ape::CefBrowserPlugin::~CefBrowserPlugin()
 	std::cout << "ApeCefBrowserPlugin dtor" << std::endl;
 	mApeCefClientImpl = nullptr;
 	delete mpApeCefRenderHandlerImpl;
+	delete mpApeCefLifeSpanHandlerImpl;
 }
 
 void Ape::CefBrowserPlugin::processEvent(Ape::Event event)
@@ -185,7 +187,8 @@ void Ape::CefBrowserPlugin::Init()
 	if (CefInitialize(main_args, settings, nullptr, nullptr))
 	{
 		mpApeCefRenderHandlerImpl = new Ape::CefRenderHandlerImpl();
-		mApeCefClientImpl = new Ape::CefClientImpl(mpApeCefRenderHandlerImpl);
+		mpApeCefLifeSpanHandlerImpl = new Ape::CefLifeSpanHandlerImpl();
+		mApeCefClientImpl = new Ape::CefClientImpl(mpApeCefRenderHandlerImpl, mpApeCefLifeSpanHandlerImpl);
 		mCefIsInintialzed = true;
 	}
 }
