@@ -24,12 +24,17 @@ SOFTWARE.*/
 
 Ape::CefLifeSpanHandlerImpl::CefLifeSpanHandlerImpl()
 {
-
+	mBrowserIDs = std::map<int, Ape::BrowserWeakPtr>();
 }
 
 Ape::CefLifeSpanHandlerImpl::~CefLifeSpanHandlerImpl()
 {
 
+}
+
+void Ape::CefLifeSpanHandlerImpl::registerBrowser(int ID, Ape::BrowserWeakPtr browser)
+{
+	mBrowserIDs[ID] = browser;
 }
 
 void Ape::CefLifeSpanHandlerImpl::OnAfterCreated(CefRefPtr<CefBrowser> browser)
@@ -41,9 +46,8 @@ bool Ape::CefLifeSpanHandlerImpl::OnBeforePopup(CefRefPtr<CefBrowser> browser, C
 	const CefString & target_frame_name, WindowOpenDisposition target_disposition, bool user_gesture, const CefPopupFeatures & popupFeatures,
 	CefWindowInfo & windowInfo, CefRefPtr<CefClient>& client, CefBrowserSettings & settings, bool * no_javascript_access)
 {
-	windowInfo.SetAsWindowless(0);
-	//target_disposition = WindowOpenDisposition::WOD_CURRENT_TAB;
-	browser->GetMainFrame()->LoadURL(target_url);
+	if (auto apeBrowser = mBrowserIDs[browser->GetIdentifier()].lock())
+		apeBrowser->setURL(target_url);
 	//std::cout << "Ape:::CefLifeSpanHandlerImpl::OnBeforePopup " << turl << " id:" << browser->GetIdentifier() << std::endl;
-	return false;
+	return true;
 }

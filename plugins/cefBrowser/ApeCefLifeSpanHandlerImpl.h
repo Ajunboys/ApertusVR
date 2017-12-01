@@ -29,16 +29,23 @@ SOFTWARE.*/
 #include "cef_app.h"
 #include "cef_client.h"
 #include "cef_life_span_handler.h"
+#include "Ape.h"
 #include "ApeIManualTexture.h"
+#include "ApeIBrowser.h"
 
 namespace Ape
 {
 	class CefLifeSpanHandlerImpl : public CefLifeSpanHandler
 	{
+	private:
+		std::map<int, Ape::BrowserWeakPtr> mBrowserIDs;
+
 	public:
 		CefLifeSpanHandlerImpl();
 
 		~CefLifeSpanHandlerImpl();
+
+		void registerBrowser(int ID, Ape::BrowserWeakPtr browser);
 
 		void OnAfterCreated(CefRefPtr<CefBrowser> browser) override;
 

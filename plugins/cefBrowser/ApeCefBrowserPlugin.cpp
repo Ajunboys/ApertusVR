@@ -162,6 +162,7 @@ void Ape::CefBrowserPlugin::createBrowser(Ape::BrowserSharedPtr browser)
 			browserMaterial->setCullingMode(Ape::Material::CullingMode::NONE_CM);
 			browserMaterial->setSceneBlending(Ape::Pass::SceneBlendingType::TRANSPARENT_ALPHA);
 			mBrowserCounter++;
+			mpApeCefLifeSpanHandlerImpl->registerBrowser(mBrowserCounter, browser);
 			mpApeCefRenderHandlerImpl->addTexture(mBrowserCounter, browserTexture);
 			mBrowserIDNames[browserName] = mBrowserCounter;
 			CefWindowInfo cefWindowInfo;
