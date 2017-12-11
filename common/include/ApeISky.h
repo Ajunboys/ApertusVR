@@ -76,9 +76,9 @@ namespace Ape
 
 		virtual Ape::LightWeakPtr getSkyLight() = 0;
 
-		virtual void setCamera(Ape::CameraWeakPtr camera) = 0;
+		virtual void setSize(float size) = 0;
 
-		virtual Ape::CameraWeakPtr getCamera() = 0;
+		virtual float getSize() = 0;
 	};
 }
 

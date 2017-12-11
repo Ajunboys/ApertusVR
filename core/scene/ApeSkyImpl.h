@@ -50,9 +50,9 @@ namespace Ape
 
 		Ape::LightWeakPtr getSkyLight() override;
 
-		void setCamera(Ape::CameraWeakPtr camera) override;
+		void setSize(float size) override;
 
-		Ape::CameraWeakPtr getCamera() override;
+		float getSize() override;
 
 		void WriteAllocationID(RakNet::Connection_RM3 *destinationConnection, RakNet::BitStream *allocationIdBitstream) const override;
 
@@ -71,9 +71,7 @@ namespace Ape
 
 		Ape::ISky::Time mTime;
 
-		Ape::CameraWeakPtr mCamera;
-
-		std::string mCameraName;
+		float mSize;
 	};
 }
 
