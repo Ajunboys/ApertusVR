@@ -2312,6 +2312,7 @@ void Ape::OgreRenderPlugin::Init()
 	Ogre::RenderWindowList renderWindowList;
 	Ogre::RenderWindowDescriptionList winDescList;
 	int enabledWindowCount = 0;
+	std::string mainWindowName = "";
 	for (int i = 0; i < mOgreRenderPluginConfig.ogreRenderWindowConfigList.size(); i++)
 	{
 		if (mOgreRenderPluginConfig.ogreRenderWindowConfigList[i].enable)
@@ -2370,6 +2371,7 @@ void Ape::OgreRenderPlugin::Init()
 				if (enabledWindowCount == 1)
 				{
 					void* windowHnd = 0;
+					mainWindowName = winDesc.name;
 					mRenderWindows[winDesc.name]->getCustomAttribute("WINDOW", &windowHnd);
 					std::ostringstream windowHndStr;
 					windowHndStr << windowHnd;
@@ -2398,4 +2400,7 @@ void Ape::OgreRenderPlugin::Init()
 			}
 		}
 	}
+
+	if (!mainWindowName.empty())
+		mRenderWindows[mainWindowName]->setActive(true);
 }
